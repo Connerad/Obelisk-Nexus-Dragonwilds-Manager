@@ -1,0 +1,610 @@
+# RuneScape: Dragonwilds All-in-One Server Manager
+
+Build a complete, production-ready server manager specifically for **RuneScape: Dragonwilds dedicated servers**.
+
+This must be a real working application, not a concept, mockup, basic launcher, collection of batch files, or generic game-server panel.
+
+## Main objective
+
+Create one application that allows a server owner to:
+
+* Install the Dragonwilds dedicated server.
+* Configure every server setting.
+* Start, stop, restart, update, and repair the server.
+* Manage worlds and backups.
+* Install, update, configure, enable, disable, and remove mods.
+* Connect the server to Discord.
+* View live logs and server health.
+* Schedule updates, restarts, announcements, and backups.
+* Manage local and remote Dragonwilds servers.
+
+The user should not need to manually edit files, install SteamCMD separately, run terminal commands, install Python, install Node.js, or set up additional utilities.
+
+The finished program must be provided as a self-contained Windows installer or portable Windows application.
+
+## 1. Server installation and detection
+
+The manager must:
+
+* Install SteamCMD automatically when needed.
+* Install the RuneScape: Dragonwilds dedicated server using SteamCMD app ID `4019830`.
+* Allow the user to choose the server installation folder.
+* Detect an existing Dragonwilds dedicated server installation.
+* Validate that all required server files exist.
+* Repair or verify damaged and missing server files.
+* Check for game-server updates.
+* Show the installed server version.
+* Show whether the server version matches the latest available version.
+* Update the server through SteamCMD.
+* Support automatic updates during scheduled maintenance.
+* Never overwrite worlds, configurations, mods, or backups during an update.
+* Display installation and update progress inside the application.
+
+Include startup arguments such as `-log -NewConsole` through an editable launch-options page.
+
+## 2. Server profiles
+
+Allow multiple server profiles.
+
+Each profile must contain:
+
+* Profile name.
+* Installation location.
+* Server name.
+* World name.
+* Owner Player ID.
+* Admin password.
+* World password.
+* Maximum players.
+* Server port.
+* Launch arguments.
+* Secure or moddable server mode.
+* Backup location.
+* Mod profile.
+* Discord configuration.
+* Automatic restart settings.
+* Automatic update settings.
+
+Profiles must be exportable and importable without exposing stored passwords or Discord secrets.
+
+## 3. Start, stop, restart, and crash recovery
+
+The dashboard must include:
+
+* Start server.
+* Graceful stop.
+* Forced stop, with a warning.
+* Restart server.
+* Update and restart.
+* Backup and restart.
+* Current server state.
+* Process ID.
+* Server uptime.
+* Memory usage.
+* CPU usage.
+* Current port.
+* Current world.
+* Installed server version.
+* Last backup.
+* Last restart.
+* Last detected error.
+* Crash count.
+
+Add automatic crash detection and an optional automatic restart policy.
+
+The program must distinguish between:
+
+* Manually stopped.
+* Starting.
+* Running.
+* Updating.
+* Restarting.
+* Crashed.
+* Unresponsive.
+* Configuration error.
+* Mod-related startup failure.
+
+## 4. Visual configuration editor
+
+Create a proper visual editor for `DedicatedServer.ini`.
+
+Automatically locate the correct configuration path, including Windows and Linux server path variations.
+
+The editor must support at least:
+
+* Owner ID.
+* Server name.
+* Default world name.
+* Admin password.
+* World password.
+* Maximum players.
+* Server port.
+* All additional settings found in the installed server version.
+
+Requirements:
+
+* Stop the server before applying settings that cannot safely be edited while it is running.
+* Warn the user about unsaved changes.
+* Validate required fields.
+* Mask passwords by default.
+* Provide a button to reveal or copy passwords.
+* Preserve unknown configuration keys.
+* Preserve settings added by future game updates.
+* Create a configuration backup before every edit.
+* Include a raw INI editor for advanced users.
+* Include a restore-defaults option.
+* Show a description and valid values for every known setting.
+* Never silently delete configuration lines it does not recognize.
+
+Do not hard-code only the current settings. Build the editor so new settings can be added through an updateable configuration schema.
+
+## 5. World management
+
+Include a complete world manager that can:
+
+* Detect all `.sav` world files.
+* Show the active world.
+* Import a local Dragonwilds world.
+* Export a world.
+* Create a backup.
+* Restore a backup.
+* Clone a world.
+* Archive a world.
+* Safely rename a world when supported.
+* Delete a world only after confirmation.
+* Open the world folder.
+* Display world file size and modified date.
+* Detect potentially corrupted or zero-byte saves.
+* Prevent replacing an active world while the server is running.
+
+Before importing, replacing, restoring, deleting, or modifying a world, automatically create a safety backup.
+
+## 6. Backup system
+
+Provide manual and scheduled backups.
+
+Backup options must include:
+
+* World-only backup.
+* Configuration backup.
+* Mod configuration backup.
+* Complete server profile backup.
+* Compressed ZIP backups.
+* Custom backup folder.
+* Optional network or cloud-synced folder.
+* Hourly, daily, weekly, startup, shutdown, and pre-update schedules.
+* Backup retention by number of backups, age, or storage size.
+* Automatic cleanup of expired backups.
+* Backup verification.
+* One-click restore.
+* Restore preview showing what will be replaced.
+
+Never perform a destructive operation without first offering or creating a backup.
+
+## 7. Complete mod manager
+
+Build an integrated Dragonwilds mod manager.
+
+It must recognize and manage:
+
+* UE4SS Lua mods.
+* `.pak` mods.
+* SML mods when required.
+* Server-only mods.
+* Client-only mods.
+* Mods required by both the server and connected players.
+* Mods containing configuration files.
+* Mods with dependencies.
+
+The manager must be able to:
+
+* Install UE4SS with one click.
+* Install supported mod loaders with one click.
+* Import a downloaded mod ZIP.
+* Detect the mod type automatically.
+* Place files in the correct folder.
+* Enable and disable UE4SS mods through `Mods.txt`.
+* Install `.pak` files into the correct `Content/Paks/~mods` location.
+* Create required mod directories.
+* Update installed mods.
+* Uninstall mods.
+* Reinstall mods.
+* Roll back a mod update.
+* Back up the world before removing content-changing mods.
+* Display installed version and available version.
+* Show the mod author, description, requirements, dependencies, source, and last update.
+* Detect duplicate files.
+* Detect conflicts when multiple mods replace the same files.
+* Detect missing dependencies.
+* Detect mods installed in the wrong directory.
+* Keep a mod installation manifest showing every installed file.
+* Preserve mod configuration files during updates whenever safe.
+* Allow separate mod profiles for different worlds.
+* Export a mod list for players.
+* Generate a player installation package or instructions for client-required mods.
+
+Support legitimate Nexus Mods integration through an official API or authorization method where available. Do not scrape Nexus Mods, bypass download restrictions, redistribute protected files, or silently download mods against the mod author's permissions.
+
+Where automatic downloading is unavailable, allow the user to download the archive normally and drag it into the manager for automatic installation.
+
+Do not claim that every mod is compatible. Show compatibility as:
+
+* Verified compatible.
+* Reported compatible.
+* Unknown.
+* Outdated.
+* Incompatible.
+* Server-only.
+* Client-required.
+
+## 8. Safe mod update process
+
+When updating a mod:
+
+1. Stop the server if required.
+2. Create a world and mod backup.
+3. Read the mod manifest.
+4. Remove only files belonging to the old version.
+5. Install the new version.
+6. Preserve compatible configuration files.
+7. Validate dependencies.
+8. Start the server.
+9. Monitor startup logs.
+10. Automatically offer rollback when startup fails.
+
+The manager must not delete unrelated files when uninstalling or updating a mod.
+
+## 9. Mod configuration editor
+
+Detect configuration files belonging to installed mods.
+
+Provide:
+
+* Visual configuration forms when a schema is available.
+* Raw text editing for advanced settings.
+* Setting descriptions.
+* Default values.
+* Valid ranges.
+* Search.
+* Reset to default.
+* Configuration backups.
+* Comparison between current and default values.
+
+Do not invent settings for mods. Only display settings that exist in the mod files or trusted mod metadata.
+
+## 10. Discord integration
+
+Include both Discord webhook support and a full Discord bot integration.
+
+The manager must guide the user through connecting a Discord application and must securely store the bot token.
+
+Discord features must include:
+
+* Server online notification.
+* Server offline notification.
+* Server crash alert.
+* Server recovered notification.
+* Game update available.
+* Server updated successfully.
+* Update failed.
+* Backup completed.
+* Backup failed.
+* Mod installed.
+* Mod updated.
+* Mod removed.
+* Mod conflict detected.
+* Scheduled restart countdown.
+* Restart completed.
+* Repeated startup failure alert.
+* Important log error alerts.
+
+Add Discord slash commands such as:
+
+* `/dragonwilds status`
+* `/dragonwilds players`
+* `/dragonwilds start`
+* `/dragonwilds stop`
+* `/dragonwilds restart`
+* `/dragonwilds update`
+* `/dragonwilds backup`
+* `/dragonwilds mods`
+* `/dragonwilds version`
+* `/dragonwilds uptime`
+* `/dragonwilds schedule`
+* `/dragonwilds logs`
+* `/dragonwilds help`
+
+Destructive commands must require:
+
+* An approved Discord role.
+* A confirmation button.
+* A configurable permission level.
+* An entry in the audit log.
+
+Allow different Discord roles for:
+
+* View status.
+* View players.
+* View logs.
+* Create backups.
+* Restart the server.
+* Update the server.
+* Start or stop the server.
+* Manage mods.
+* Full administrator access.
+
+Do not expose the admin password, world password, Discord bot token, file paths, or private configuration values in Discord messages.
+
+Player counts, player names, chat relays, bans, kicks, and in-game commands must only be implemented when the dedicated server provides a reliable supported method of retrieving or performing them. Do not fake unsupported RCON, player, chat, or administrative functionality.
+
+## 11. Discord status panel
+
+Allow the bot to maintain a live Discord embed showing:
+
+* Server name.
+* Online or offline status.
+* Current world.
+* Uptime.
+* Player count when reliably available.
+* Installed version.
+* Update state.
+* Modded or secure mode.
+* Number of installed mods.
+* Last backup.
+* Next restart.
+* Server health.
+
+The manager should update the existing message instead of repeatedly posting new status messages.
+
+## 12. Scheduled tasks and announcements
+
+Allow scheduling of:
+
+* Server restarts.
+* Server updates.
+* Steam file verification.
+* Backups.
+* Log cleanup.
+* Mod update checks.
+* Discord status posts.
+* Maintenance windows.
+
+Before a scheduled restart, send configurable Discord countdown announcements such as:
+
+* 30 minutes.
+* 15 minutes.
+* 10 minutes.
+* 5 minutes.
+* 1 minute.
+* Restarting now.
+* Server back online.
+
+Allow schedules to be enabled, disabled, edited, and run immediately.
+
+## 13. Live console and logs
+
+Create a live console page that reads the Dragonwilds server output and log files.
+
+Include:
+
+* Live log tailing.
+* Pause and resume.
+* Search.
+* Copy.
+* Export.
+* Clear display without deleting the actual log.
+* Filter by information, warning, error, crash, mod, player, and network messages.
+* Automatic scroll.
+* Timestamps.
+* Highlighted startup failures.
+* Common-error explanations.
+* Log rotation.
+* Maximum log storage limit.
+
+Create a diagnostics bundle containing:
+
+* Sanitized logs.
+* Server version.
+* Operating-system information.
+* Installed mod list.
+* Mod versions.
+* Configuration with passwords and tokens removed.
+* Recent crash information.
+* File validation results.
+
+## 14. Local and remote server management
+
+Support:
+
+* A server running on the same Windows computer.
+* A server running on another Windows computer.
+* A Linux server accessed through SSH and SFTP.
+* Multiple remote server profiles.
+
+Remote credentials must be encrypted.
+
+The remote manager must support:
+
+* Start.
+* Stop.
+* Restart.
+* Update.
+* File management.
+* Config editing.
+* World backups.
+* Mod installation.
+* Log viewing.
+* Health monitoring.
+
+Do not require the user to manually install a large collection of dependencies on the remote computer. Where a small remote service is required, provide a one-click installer and uninstaller.
+
+## 15. File manager
+
+Include a restricted server file manager with:
+
+* Folder navigation inside the selected server installation.
+* Upload.
+* Download.
+* Rename.
+* Move.
+* Copy.
+* Delete with confirmation.
+* ZIP creation.
+* ZIP extraction.
+* Text-file editing.
+* File search.
+* Open folder in Windows Explorer.
+* File-size and modified-date display.
+
+Block accidental navigation outside approved server, backup, and import folders unless advanced mode is explicitly enabled.
+
+## 16. Network tools
+
+Include:
+
+* Configurable UDP server port.
+* Local firewall-rule creation.
+* Firewall-rule status.
+* Local IP display.
+* Public IP display.
+* Port-forwarding instructions.
+* Port reachability diagnostics when technically possible.
+* Detection of port conflicts.
+* Warning when multiple server profiles use the same port.
+* Clear explanation that router configuration may still be required.
+
+Do not falsely report a UDP port as reachable based only on a TCP test.
+
+## 17. Security requirements
+
+The application must:
+
+* Encrypt Discord bot tokens and remote credentials.
+* Mask server passwords.
+* Use least-privilege permissions.
+* Never send private server data to an outside service without permission.
+* Validate ZIP extraction paths to prevent archive traversal.
+* Scan imported archives for unexpected executables and suspicious paths.
+* Warn before installing DLL files.
+* Verify downloaded files when checksums are available.
+* Maintain an audit log.
+* Require confirmation for destructive actions.
+* Redact secrets from exported logs and diagnostics.
+* Store data locally unless the user deliberately enables external services.
+
+## 18. Interface design
+
+Use a polished RuneScape: Dragonwilds-inspired interface without copying protected game assets or pretending to be an official Jagex product.
+
+Main navigation:
+
+* Dashboard
+* Servers
+* Configuration
+* Worlds
+* Mods
+* Mod Configs
+* Backups
+* Console
+* Discord
+* Schedules
+* Players and Admins
+* Files
+* Network
+* Diagnostics
+* Settings
+
+The dashboard should clearly show the most important controls without forcing the user to use the command line.
+
+Use readable text, clear status indicators, confirmation dialogs, progress bars, useful tooltips, and a dark fantasy visual style.
+
+Include light and dark interface options where practical.
+
+Display a clear statement that the application is an unofficial community tool and is not affiliated with or endorsed by Jagex.
+
+## 19. Reliability requirements
+
+The application must survive:
+
+* Closing and reopening the manager while the server remains running.
+* A server crash.
+* A manager crash.
+* A SteamCMD download failure.
+* An interrupted update.
+* A failed mod installation.
+* A corrupted mod ZIP.
+* A failed backup.
+* A missing configuration file.
+* A changed game folder.
+* A game update that adds new configuration keys.
+* Temporary loss of internet access.
+* Temporary loss of connection to a remote server.
+
+Operations should be transactional where possible and offer rollback after failures.
+
+## 20. Technical delivery requirements
+
+Provide:
+
+* Complete source code.
+* Compiled Windows installer.
+* Portable Windows build.
+* One-click setup.
+* Uninstaller.
+* Automatic or manually triggered manager updates.
+* Build instructions.
+* User documentation.
+* Developer documentation.
+* Configuration schema documentation.
+* Mod manifest format documentation.
+* Discord setup guide.
+* Troubleshooting guide.
+* Automated tests for critical file, backup, update, and mod operations.
+
+The normal user must not need Visual Studio, Python, Node.js, Docker, SteamCMD, Git, or other development software installed.
+
+A self-contained .NET desktop application is preferred for the Windows version, but another architecture is acceptable when it provides the same easy, dependency-free installation.
+
+## 21. Development rules
+
+* Use the current official Dragonwilds dedicated-server documentation as the source of truth.
+* Verify file paths and configuration names against an actual dedicated-server installation.
+* Do not guess unsupported admin commands.
+* Do not invent an RCON interface.
+* Do not fabricate player tracking.
+* Do not use placeholder buttons.
+* Do not leave major features as nonfunctional demonstrations.
+* Do not build only the interface.
+* Every displayed control must either work or be clearly marked as unavailable.
+* Preserve unknown files and configuration values.
+* Back up data before destructive changes.
+* Follow Jagex modding guidelines and third-party mod-hosting terms.
+* Do not package or redistribute mods without permission.
+* Design the application so paths, configuration fields, versions, and mod formats can be updated without rebuilding the entire program.
+
+## 22. Acceptance requirements
+
+The project is not complete until a new Windows user can:
+
+1. Install the manager.
+2. Select a server folder.
+3. Install the Dragonwilds dedicated server.
+4. Enter their Owner ID and server settings.
+5. Create or import a world.
+6. Start the server.
+7. View the live server log.
+8. Stop and restart the server.
+9. Create and restore a backup.
+10. Install UE4SS through the manager.
+11. Import and install a compatible mod ZIP.
+12. Enable, disable, update, and uninstall that mod.
+13. Edit the mod configuration.
+14. Connect a Discord bot.
+15. View the server status in Discord.
+16. Run an authorized restart command from Discord.
+17. Receive crash and update notifications.
+18. Schedule automatic backups and restarts.
+19. Update the game server without losing worlds or mods.
+20. Recover from a failed mod installation through rollback.
+
+Do not send me only a design preview. Deliver the working manager, complete source code, compiled application, installer, and documentation.
